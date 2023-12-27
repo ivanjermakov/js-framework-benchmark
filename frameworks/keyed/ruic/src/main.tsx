@@ -97,7 +97,7 @@ class App extends Component {
                                         map(s => (s === row.id ? 'danger' : '') as string | undefined)
                                     )
                                     return (
-                                        <tr class={danger}>
+                                        <tr key={row.id} class={danger}>
                                             <td class="col-md-1">{row.id}</td>
                                             <td class="col-md-4">
                                                 <a onClick={() => this.selected.set(row.id)}>{row.label}</a>

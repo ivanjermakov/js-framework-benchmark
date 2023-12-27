@@ -6,6 +6,7 @@
         "dev": "vite",
         "preview": "vite preview",
         "build": "tsc && vite build",
+        "build:dev": "tsc && vite build --sourcemap=true --minify=false",
         "build-prod": "npm run build"
     },
     "dependencies": {
