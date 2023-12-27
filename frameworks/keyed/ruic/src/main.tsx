@@ -1,6 +1,6 @@
-import { Component, Signal, render } from "ruic"
-import { Datum, N, N_LOTS, buildData } from "./data"
-import { map } from "ruic/operator"
+import { Component, Signal, render } from 'ruic'
+import { map } from 'ruic/operator'
+import { Datum, N, N_LOTS, buildData } from './data'
 
 interface ButtonProps {
     id: string
@@ -37,13 +37,13 @@ class App extends Component {
     }
 
     add(): void {
-        this.data.update((d) => [...d, ...buildData(N)])
+        this.data.update(d => [...d, ...buildData(N)])
     }
 
     update(): void {
         const d = this.data.get()
         for (let i = 0; i < d.length; i += 10) {
-            d[i].label.update((l) => l + " !!!")
+            d[i].label.update(l => l + ' !!!')
         }
     }
 
@@ -62,8 +62,8 @@ class App extends Component {
     }
 
     remove(id: number) {
-        this.data.update((d) => {
-            const idx = d.findIndex((d) => d.id === id)
+        this.data.update(d => {
+            const idx = d.findIndex(d => d.id === id)
             return [...d.slice(0, idx), ...d.slice(idx + 1)]
         })
     }
@@ -90,22 +90,19 @@ class App extends Component {
                 </div>
                 <table class="table table-hover table-striped test-data">
                     <tbody>
-                        {" "}
                         {this.data.pipe(
-                            map((d) =>
-                                d.map((row) => {
+                            map(d =>
+                                d.map(row => {
                                     const danger = this.selected.pipe(
-                                        map((s) => (s === row.id ? "danger" : "") as string | undefined)
+                                        map(s => (s === row.id ? 'danger' : '') as string | undefined)
                                     )
                                     return (
                                         <tr class={danger}>
                                             <td class="col-md-1">{row.id}</td>
                                             <td class="col-md-4">
-                                                {" "}
                                                 <a onClick={() => this.selected.set(row.id)}>{row.label}</a>
                                             </td>
                                             <td class="col-md-1">
-                                                {" "}
                                                 <a onClick={() => this.remove(row.id)}>
                                                     <span class="glyphicon glyphicon-remove" aria-hidden="true" />
                                                 </a>
@@ -115,7 +112,7 @@ class App extends Component {
                                     )
                                 })
                             )
-                        )}{" "}
+                        )}
                     </tbody>
                 </table>
                 <span class="preloadicon glyphicon glyphicon-remove" aria-hidden="true" />
@@ -124,4 +121,4 @@ class App extends Component {
     }
 }
 
-render(<App />, document.getElementById("main")!)
+render(<App />, document.getElementById('main')!)
