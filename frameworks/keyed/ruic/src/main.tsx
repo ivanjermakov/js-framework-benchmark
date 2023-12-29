@@ -59,6 +59,7 @@ class App extends Component {
             d[N - 2] = tmp
             this.data.set(d)
         }
+        this.data.set(d)
     }
 
     remove(id: number) {
@@ -91,16 +92,14 @@ class App extends Component {
                 <table class="table table-hover table-striped test-data">
                     <tbody>
                         {this.data.pipe(
-                            map(d =>
-                                d.map(row => {
-                                    const danger = this.selected.pipe(
-                                        map(s => (s === row.id ? 'danger' : undefined))
-                                    )
+                            map(d => {
+                                return d.map(row => {
+                                    const danger = this.selected.pipe(map(s => (s === row.id ? 'danger' : '')))
                                     return (
                                         // TODO: this produces a lot of garbage since none of this is used in swap/delete
                                         // Instead, create <For/> component that will accept data and the mapping function
                                         // separately
-                                        <tr key={row.id} class={danger}>
+                                        <tr key={row.id} class={danger} onUnmount={() => danger.complete()}>
                                             <td class="col-md-1">{row.id}</td>
                                             <td class="col-md-4">
                                                 <a onClick={() => this.selected.set(row.id)}>{row.label}</a>
@@ -114,7 +113,7 @@ class App extends Component {
                                         </tr>
                                     )
                                 })
-                            )
+                            })
                         )}
                     </tbody>
                 </table>
