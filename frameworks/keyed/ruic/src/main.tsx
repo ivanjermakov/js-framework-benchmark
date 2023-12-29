@@ -1,4 +1,4 @@
-import { Component, Signal, render } from 'ruic'
+import { Component, Signal, render, For } from 'ruic'
 import { map } from 'ruic/operator'
 import { Datum, N, N_LOTS, buildData } from './data'
 
@@ -91,30 +91,23 @@ class App extends Component {
                 </div>
                 <table class="table table-hover table-striped test-data">
                     <tbody>
-                        {this.data.pipe(
-                            map(d => {
-                                return d.map(row => {
-                                    const danger = this.selected.pipe(map(s => (s === row.id ? 'danger' : '')))
-                                    return (
-                                        // TODO: this produces a lot of garbage since none of this is used in swap/delete
-                                        // Instead, create <For/> component that will accept data and the mapping function
-                                        // separately
-                                        <tr key={row.id} class={danger} onUnmount={() => danger.complete()}>
-                                            <td class="col-md-1">{row.id}</td>
-                                            <td class="col-md-4">
-                                                <a onClick={() => this.selected.set(row.id)}>{row.label}</a>
-                                            </td>
-                                            <td class="col-md-1">
-                                                <a onClick={() => this.remove(row.id)}>
-                                                    <span class="glyphicon glyphicon-remove" aria-hidden="true" />
-                                                </a>
-                                            </td>
-                                            <td class="col-md-6" />
-                                        </tr>
-                                    )
-                                })
-                            })
-                        )}
+                        <For each={this.data}>{row => {
+                            const danger = this.selected.pipe(map(s => (s === row.id ? 'danger' : '')))
+                            return (
+                                <tr class={danger} onUnmount={() => danger.complete()}>
+                                    <td class="col-md-1">{row.id}</td>
+                                    <td class="col-md-4">
+                                        <a onClick={() => this.selected.set(row.id)}>{row.label}</a>
+                                    </td>
+                                    <td class="col-md-1">
+                                        <a onClick={() => this.remove(row.id)}>
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true" />
+                                        </a>
+                                    </td>
+                                    <td class="col-md-6" />
+                                </tr>
+                            )
+                        }}</For>
                     </tbody>
                 </table>
                 <span class="preloadicon glyphicon glyphicon-remove" aria-hidden="true" />
