@@ -94,9 +94,12 @@ class App extends Component {
                             map(d =>
                                 d.map(row => {
                                     const danger = this.selected.pipe(
-                                        map(s => (s === row.id ? 'danger' : '') as string | undefined)
+                                        map(s => (s === row.id ? 'danger' : undefined))
                                     )
                                     return (
+                                        // TODO: this produces a lot of garbage since none of this is used in swap/delete
+                                        // Instead, create <For/> component that will accept data and the mapping function
+                                        // separately
                                         <tr key={row.id} class={danger}>
                                             <td class="col-md-1">{row.id}</td>
                                             <td class="col-md-4">
